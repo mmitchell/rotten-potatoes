@@ -7,15 +7,21 @@ class MoviesController < ApplicationController
   end
 
   def index
+    if (session[:sort] and !params[:sort]) or (session[:ratings] and !params[:ratings])
+      @redirect = true
+    end
 
     session[:sort] = params[:sort] if params[:sort]
     session[:ratings] = params[:ratings] if params[:ratings]
 
-    @movies = Movie.find(:all, :conditions => {:rating => session[:ratings]? session[:ratings].keys : nil}, :order => session[:sort])
+    @movies = Movie.find(:all, :conditions => {:rating => session[:ratings] ? session[:ratings].keys : nil}, :order => session[:sort])
     @all_ratings = Movie.ratings
 
-    # flash.keep
-    # redirect_to params.merge!(:action => "index")
+    #if session had a setting that params did not, redirect
+    if @redirect
+      flash.keep
+      redirect_to :action => 'index', :sort => session[:sort], :ratings => session[:ratings]
+    end
   end
 
   def new
