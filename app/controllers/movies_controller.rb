@@ -7,10 +7,15 @@ class MoviesController < ApplicationController
   end
 
   def index
+
     session[:sort] = params[:sort] if params[:sort]
     session[:ratings] = params[:ratings] if params[:ratings]
+
     @movies = Movie.find(:all, :conditions => {:rating => session[:ratings]? session[:ratings].keys : nil}, :order => session[:sort])
     @all_ratings = Movie.ratings
+
+    # flash.keep
+    # redirect_to params.merge!(:action => "index")
   end
 
   def new
