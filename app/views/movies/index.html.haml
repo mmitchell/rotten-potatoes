@@ -4,8 +4,8 @@
 %table#movies
   %thead
     %tr
-      %th Movie Title
-      %th Rating
+      %th{class: params[:sort] == "title" && "hilite"}= link_to 'Movie Title', movies_path(:sort => 'title'), :id => 'title_header'
+      %th{class: params[:sort] == "rating" && "hilite"}= link_to 'rating', movies_path(:sort => 'rating'), :id => 'release_date_header'
       %th Release Date
       %th More Info
   %tbody
