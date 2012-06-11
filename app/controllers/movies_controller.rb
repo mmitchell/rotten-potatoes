@@ -7,7 +7,9 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.find(:all, :conditions => {:rating => params[:ratings]? params[:ratings].keys : nil}, :order => params[:sort])
+    session[:sort] = params[:sort] if params[:sort]
+    session[:ratings] = params[:ratings] if params[:ratings]
+    @movies = Movie.find(:all, :conditions => {:rating => session[:ratings]? session[:ratings].keys : nil}, :order => session[:sort])
     @all_ratings = Movie.ratings
   end
 
